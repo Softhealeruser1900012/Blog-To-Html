@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog to HTML Code Converter</title>
+  <style>
+    :root {
+      --primary: #0a3161;
+      --accent: #b31942;
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --border: #d8dee9;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .app {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 28px 18px 40px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, var(--primary), #123f79);
+      color: #fff;
+      padding: 28px;
+      border-radius: 18px;
+      margin-bottom: 22px;
+      box-shadow: 0 14px 34px rgba(10, 49, 97, 0.18);
+    }
+
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: 30px;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.86);
+      max-width: 900px;
+      line-height: 1.6;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+      align-items: center;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 14px;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-secondary {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .btn-light {
+      background: #fff;
+      color: var(--primary);
+      border: 1px solid var(--border);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+      min-height: 560px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .panel-header {
+      padding: 15px 18px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      background: #fafbfe;
+    }
+
+    .panel-header h2 {
+      margin: 0;
+      font-size: 16px;
+      color: var(--primary);
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 650px;
+      border: 0;
+      resize: vertical;
+      padding: 18px;
+      outline: none;
+      font-family: Consolas, Monaco, monospace;
+      font-size: 14px;
+      line-height: 1.55;
+      color: #111827;
+    }
+
+    .settings {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+      margin-bottom: 18px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+    }
+
+    .field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 7px;
+    }
+
+    .field input,
+    .field select {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      outline: none;
+      font-size: 14px;
+      background: #fff;
+    }
+
+    .rules {
+      margin-top: 18px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    .rules strong {
+      color: var(--primary);
+    }
+
+    @media (max-width: 980px) {
+      .grid,
+      .settings {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <section class="hero">
+      <h1>Blog Document to Softhealer HTML Converter</h1>
+      <p>
+        Paste a plain blog document on the left. This tool converts it into your required blog HTML pattern using
+        <code>sh_content_detail</code>, <code>sh_heading_text</code>, <code>sh_text</code>, <code>h3</code>, list blocks, and CTA sections.
+      </p>
+    </section>
+
+    <section class="settings">
+      <div class="field">
+        <label for="caseMode">Button Text Case</label>
+        <select id="caseMode">
+          <option value="original" selected>Keep Original</option>
+          <option value="title">Title Case</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="linkPhrase">Optional Internal Link Phrase</label>
+        <input id="linkPhrase" placeholder="knowledge base system" />
+      </div>
+      <div class="field">
+        <label for="linkUrl">Optional Internal Link URL</label>
+        <input id="linkUrl" placeholder="https://softhealer.com/..." />
+      </div>
+      <div class="field">
+        <label for="linkSection">Apply Link In Section</label>
+        <select id="linkSection">
+          <option value="conclusion" selected>Conclusion Only</option>
+          <option value="first">First Match Only</option>
+          <option value="all">All Matches</option>
+        </select>
+      </div>
+    </section>
+
+    <div class="toolbar">
+      <button class="btn-primary" onclick="convertBlog()">Convert to HTML</button>
+      <button class="btn-secondary" onclick="copyOutput()">Copy HTML</button>
+      <button class="btn-light" onclick="clearAll()">Clear</button>
+    </div>
+
+    <section class="grid">
+      <div class="panel">
+        <div class="panel-header">
+          <h2>Paste Blog Document</h2>
+          <span class="hint">Supports headings, numbered sections, lists, and CTA notes</span>
+        </div>
+        <textarea id="input" placeholder="Paste your blog text here..."></textarea>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <h2>Generated HTML Code</h2>
+          <span class="hint">Copy this output into your website/blog file</span>
+        </div>
+        <textarea id="output" readonly placeholder="Generated HTML will appear here..."></textarea>
+      </div>
+    </section>
+
+    <section class="rules">
+      <strong>Conversion rules used:</strong>
+      Main title and major sections become <code>&lt;h2 class="sh_heading_text"&gt;</code>. Sub-points like
+      <code>1. Centralized Storage</code> or feature names become <code>&lt;h3&gt;</code>. Normal paragraphs become
+      <code>&lt;p class="sh_text"&gt;</code>. Plain consecutive list lines become your exact
+      <code>&lt;ul&gt;&lt;li&gt;&lt;span class="sh_text_about"&gt;</code> pattern. CTA notes are replaced by the exact CTA section structure.
+    </section>
+  </main>
+
+  <script>
+    const KNOWN_MAJOR_HEADINGS = new Set([
+      'Conclusion'
+    ]);
+
+    const HEADING_STARTERS = [
+      'What ',
+      'Why ',
+      'Types ',
+      'Key ',
+      'Best ',
+      'Common ',
+      'Benefits ',
+      'Who ',
+      'How ',
+      'Different ',
+      'Features ',
+      'The Complete ',
+      'Managing ',
+      'Guide ',
+      'Top '
+    ];
+
+    const SECTION_PHRASES = [
+      'System',
+      'Software',
+      'Management',
+      'Benefits',
+      'Features',
+      'Practices',
+      'Mistakes',
+      'Types',
+      'Conclusion',
+      'Guide',
+      'Agencies',
+      'Platform',
+      'Documentation',
+      'Knowledge Base',
+      'USA',
+      'US Agencies'
+    ];
+
+    const FEATURE_HEADING_WORDS = [
+      'Dashboard',
+      'Details',
+      'Agents',
+      'Reports',
+      'Reminder',
+      'Reminders',
+      'Nominee',
+      'Policy',
+      'Claim',
+      'Renew',
+      'Category',
+      'Quick',
+      'Storage',
+      'Editing',
+      'Tags',
+      'Search',
+      'Control',
+      'Tools',
+      'Workflow',
+      'Analytics',
+      'Scalability',
+      'Access',
+      'Support',
+      'Growth',
+      'Errors',
+      'Documents',
+      'Brokers',
+      'Companies',
+      'Firms',
+      'Simple',
+      'Structure',
+      'Owners',
+      'Templates',
+      'Usage'
+    ];
+
+    function convertBlog() {
+      linkApplied = false;
+      const raw = document.getElementById('input').value.trim();
+      if (!raw) {
+        alert('Please paste your blog document first.');
+        return;
+      }
+
+      const clean = normalizeInput(raw);
+      const blocks = splitIntoBlocks(clean);
+      const html = buildHtml(blocks);
+      document.getElementById('output').value = html;
+    }
+
+    function normalizeInput(text) {
+      return text
+        .replace(/\r/g, '')
+        .replace(/[“”]/g, '"')
+        .replace(/[‘’]/g, '’')
+        .replace(/\u00A0/g, ' ')
+        .replace(/[ \t]+\n/g, '\n')
+        .replace(/\n{3,}/g, '\n\n')
+        .trim();
+    }
+
+    function splitIntoBlocks(text) {
+      const lines = text.split('\n').map(line => line.trim()).filter(Boolean);
+      const blocks = [];
+
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+
+        if (/^Note:\s*Please place the CTA here\.?$/i.test(line)) {
+          const ctaText = readPrefixedValue(lines[i + 1], 'CTA');
+          const buttonText = readPrefixedValue(lines[i + 2], 'Button');
+          const linkText = readPrefixedValue(lines[i + 3], 'Link');
+
+          blocks.push({
+            type: 'cta',
+            title: ctaText || '',
+            button: buttonText || 'Learn More',
+            link: linkText || ''
+          });
+
+          i += 3;
+          continue;
+        }
+
+        if (/^(CTA|Button|Link):/i.test(line)) {
+          continue;
+        }
+
+        if (isBulletCandidate(lines, i)) {
+          const items = [];
+          let j = i;
+          while (j < lines.length && isPlainListLine(lines[j])) {
+            items.push(stripListPrefix(lines[j]));
+            j++;
+          }
+          blocks.push({ type: 'ul', items });
+          i = j - 1;
+          continue;
+        }
+
+        if (isH2(line, blocks)) {
+          blocks.push({ type: 'h2', text: line });
+          continue;
+        }
+
+        if (isH3(line, lines[i + 1], blocks)) {
+          blocks.push({ type: 'h3', text: line });
+          continue;
+        }
+
+        blocks.push({ type: 'p', text: line });
+      }
+
+      return normalizeBlocks(blocks);
+    }
+
+    function normalizeBlocks(blocks) {
+      const normalized = [];
+
+      for (let i = 0; i < blocks.length; i++) {
+        const block = blocks[i];
+
+        if (block.type === 'p' && /:\s*$/.test(block.text.trim())) {
+          const listItems = [];
+          let j = i + 1;
+
+          while (j < blocks.length && blocks[j].type === 'p' && isLooseListText(blocks[j].text)) {
+            listItems.push(blocks[j].text.trim());
+            j++;
+          }
+
+          if (listItems.length >= 2) {
+            normalized.push(block);
+            normalized.push({ type: 'ul', items: listItems });
+            i = j - 1;
+            continue;
+          }
+        }
+
+        normalized.push(block);
+      }
+
+      return normalized;
+    }
+
+    function isLooseListText(text) {
+      const clean = text.trim();
+      if (!clean) return false;
+      if (/[.!?:]$/.test(clean)) return false;
+      if (clean.length > 85) return false;
+
+      const words = clean.split(/\s+/).filter(Boolean);
+      if (words.length > 9) return false;
+
+      const lower = clean.toLowerCase();
+      const bannedStarts = ['here ', 'this ', 'these ', 'those ', 'when ', 'with ', 'if ', 'as ', 'in simple words'];
+      if (bannedStarts.some(start => lower.startsWith(start))) return false;
+
+      return true;
+    }
+
+    function buildHtml(blocks) {
+      const output = [];
+      let lastWasBreak = false;
+      let h2Count = 0;
+
+      output.push('<div class="sh_content_detail">');
+
+      blocks.forEach((block, index) => {
+        if (block.type === 'h2') {
+          if (h2Count > 0 && !lastWasBreak) {
+            output.push('  <br>');
+          }
+          output.push('  <h2 class="sh_heading_text">');
+          output.push(`    ${escapeHtml(block.text)}`);
+          output.push('  </h2>');
+          h2Count++;
+          lastWasBreak = false;
+          return;
+        }
+
+        if (block.type === 'h3') {
+          output.push('  <h3>');
+          output.push(`    ${escapeHtml(block.text)}`);
+          output.push('  </h3>');
+          lastWasBreak = false;
+          return;
+        }
+
+        if (block.type === 'p') {
+          output.push('  <p class="sh_text">');
+          output.push(`    ${applyOptionalLink(escapeHtml(block.text), block.text, blocks, index)}`);
+          output.push('  </p>');
+          lastWasBreak = false;
+          return;
+        }
+
+        if (block.type === 'ul') {
+          output.push('  <ul>');
+          block.items.forEach(item => {
+            output.push('    <li>');
+            output.push('      <span class="sh_text_about">');
+            output.push(`        ${escapeHtml(item)}`);
+            output.push('      </span>');
+            output.push('    </li>');
+          });
+          output.push('  </ul>');
+          lastWasBreak = false;
+          return;
+        }
+
+        if (block.type === 'cta') {
+          output.push('  <br>');
+          output.push('  <br>');
+          output.push(renderCta(block));
+          output.push('  <br>');
+          output.push('  <br>');
+          lastWasBreak = true;
+        }
+      });
+
+      output.push('</div>');
+      return output.join('\n');
+    }
+
+    function renderCta(block) {
+      const button = getButtonText(block.button);
+      const title = escapeHtml(block.title.trim());
+
+      return [
+        '  <section id="sh_article_blog_call_to_action" class="sh_article_blog_call_to_action aos-init aos-animate">',
+        '    <div class="container">',
+        '      <div class="sh_call_action_box">',
+        '        <div class="sh_call_action_inner">',
+        `          <h2 class="sh_title_text"> ${title} </h2>`,
+        '        </div>',
+        '        <div class="sh_call_action_button">',
+        '          <a id="sh_create_ticket_from_solution_pages" target="_self" class="btn rippler rippler-default sh_call_to_action_btn">',
+        `            <span class="prim_text sh_call_to_action_btn_text"> ${escapeHtml(button)}`,
+        '              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevrons-right" viewBox="0 0 24 24" stroke-width="1" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">',
+        '                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>',
+        '                <polyline points="7 7 12 12 7 17"></polyline>',
+        '                <polyline points="13 7 18 12 13 17"></polyline>',
+        '              </svg>',
+        '            </span>',
+        '          </a>',
+        '        </div>',
+        '      </div>',
+        '    </div>',
+        '  </section>'
+      ].join('\n');
+    }
+
+    function isH2(line, blocks) {
+      const text = line.trim();
+
+      if (blocks.length === 0) return true;
+      if (KNOWN_MAJOR_HEADINGS.has(text)) return true;
+      if (/[.!]$/.test(text)) return false;
+      if (/^\d+[.)]\s+/.test(text)) return false;
+      if (text.length > 95) return false;
+
+      const startsLikeHeading = HEADING_STARTERS.some(prefix => text.startsWith(prefix));
+      const titleCaseRatio = getTitleCaseRatio(text);
+      const isQuestionHeading = text.endsWith('?') && titleCaseRatio >= 0.45;
+
+      return startsLikeHeading || isQuestionHeading;
+    }
+
+    function isH3(line, nextLine, blocks) {
+      const text = line.trim();
+      if (!text || /[.!?]$/.test(text)) return false;
+      if (blocks.length === 0) return false;
+      if (isH2(text, blocks)) return false;
+
+      if (/^\d+[.)]\s+/.test(text)) return true;
+      if (text.length > 70) return false;
+
+      const words = text.split(/\s+/).filter(Boolean);
+      if (words.length > 8) return false;
+
+      const titleCaseRatio = getTitleCaseRatio(text);
+      const hasFeatureWord = FEATURE_HEADING_WORDS.some(word => text.includes(word));
+      const nextLooksParagraph = nextLine && /[.!?]$/.test(nextLine.trim());
+
+      return nextLooksParagraph && (titleCaseRatio >= 0.55 || hasFeatureWord);
+    }
+
+    function isBulletCandidate(lines, index) {
+      if (!isPlainListLine(lines[index])) return false;
+      if (/^\d+[.)]\s+/.test(lines[index])) return false;
+
+      const previous = lines[index - 1] || '';
+      const previousIntroducesList = /:\s*$/.test(previous.trim()) || /\b(for|helps teams|helps agencies)\s*:?$/i.test(previous.trim());
+
+      let count = 0;
+      for (let i = index; i < lines.length; i++) {
+        if (isPlainListLine(lines[i])) count++;
+        else break;
+      }
+
+      return count >= 2 && previousIntroducesList;
+    }
+
+    function isPlainListLine(line) {
+      const text = line.trim();
+      if (!text) return false;
+      if (/^[-•*]\s+/.test(text)) return true;
+      if (/^\d+[.)]\s+/.test(text)) return true;
+      if (/[.!?:]$/.test(text)) return false;
+      if (text.length > 75) return false;
+
+      const words = text.split(/\s+/).filter(Boolean);
+      if (words.length > 8) return false;
+
+      return true;
+    }
+
+    function stripListPrefix(line) {
+      return line.trim().replace(/^[-•*]\s+/, '').replace(/^\d+[.)]\s+/, '').trim();
+    }
+
+    function readPrefixedValue(line, prefix) {
+      if (!line) return '';
+      const regex = new RegExp('^' + prefix + '\\s*:\\s*(.*)$', 'i');
+      const match = line.match(regex);
+      return match ? match[1].trim() : '';
+    }
+
+    function getTitleCaseRatio(text) {
+      const words = text.replace(/[()&]/g, ' ').split(/\s+/).filter(Boolean);
+      if (!words.length) return 0;
+      const titleWords = words.filter(word => /^[A-Z0-9]/.test(word));
+      return titleWords.length / words.length;
+    }
+
+    function getButtonText(button) {
+      const mode = document.getElementById('caseMode').value;
+      if (mode === 'original') return button.trim();
+      return toTitleCase(button.trim());
+    }
+
+    function toTitleCase(text) {
+      return text.toLowerCase().replace(/\b\w/g, char => char.toUpperCase());
+    }
+
+    let linkApplied = false;
+
+    function applyOptionalLink(escapedText, originalText, blocks, currentIndex) {
+      const phrase = document.getElementById('linkPhrase').value.trim();
+      const url = document.getElementById('linkUrl').value.trim();
+      const mode = document.getElementById('linkSection').value;
+
+      if (!phrase || !url) return escapedText;
+
+      const lowerOriginal = originalText.toLowerCase();
+      const lowerPhrase = phrase.toLowerCase();
+      if (!lowerOriginal.includes(lowerPhrase)) return escapedText;
+
+      if (mode === 'first' && linkApplied) return escapedText;
+      if (mode === 'conclusion' && !isInsideConclusion(blocks, currentIndex)) return escapedText;
+
+      const safePhrase = escapeHtml(phrase);
+      const safeUrl = escapeAttribute(url);
+      const regex = new RegExp(escapeRegExp(safePhrase), 'i');
+      const linked = escapedText.replace(regex, `<a href="${safeUrl}" target="_blank"> $& </a>`);
+      linkApplied = true;
+      return linked;
+    }
+
+    function isInsideConclusion(blocks, index) {
+      for (let i = index; i >= 0; i--) {
+        if (blocks[i].type === 'h2') {
+          return blocks[i].text.trim().toLowerCase() === 'conclusion';
+        }
+      }
+      return false;
+    }
+
+    function escapeHtml(text) {
+      return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function escapeAttribute(text) {
+      return escapeHtml(text).replace(/`/g, '&#096;');
+    }
+
+    function escapeRegExp(text) {
+      return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+
+    async function copyOutput() {
+      const output = document.getElementById('output').value;
+      if (!output.trim()) {
+        alert('Please convert the blog first.');
+        return;
+      }
+      await navigator.clipboard.writeText(output);
+      alert('HTML copied successfully.');
+    }
+
+    function clearAll() {
+      document.getElementById('input').value = '';
+      document.getElementById('output').value = '';
+      linkApplied = false;
+    }
+  </script>
+</body>
+</html>
